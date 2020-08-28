@@ -2,7 +2,7 @@
   <div id="home">
     <h2>Welcome, this is a test.</h2>
     <post-list :posts="posts" />
-    <answer-form class="center" v-if="true" />
+    <answer-form class="center" @submit="postMessage" />
   </div>
 </template>
 
@@ -10,6 +10,9 @@
 // @ is an alias to /src
 import AnswerForm from "@/components/AnswerForm.vue";
 import PostList from "@/components/PostList.vue";
+import axios from "axios";
+
+const url = process.env.VUE_APP_API_URL;
 
 export default {
   name: "Home",
@@ -19,33 +22,33 @@ export default {
   },
   data() {
     return {
-      posts: [
-        {
-          title: "Welcome",
-          msg: "All right.",
-          author: "Arthur",
-          answers: 5
-        },
-        {
-          title: "Welcome",
-          msg: "All right.",
-          author: "Arthur",
-          answers: 5
-        },
-        {
-          title: "Welcome",
-          msg: "All right.",
-          author: "Arthur",
-          answers: 5
-        },
-        {
-          title: "Welcome",
-          msg: "All right.",
-          author: "Arthur",
-          answers: 5
-        }
-      ]
+      posts: []
     };
+  },
+  methods: {
+    listUpdate() {
+      axios
+        .get(url + "/messages")
+        .then(response => {
+          this.posts = response.data;
+        })
+        .catch(e => {
+          console.error(e);
+        });
+    },
+    postMessage(values) {
+      axios
+        .post(url + "/post", values)
+        .then(() => {
+          this.listUpdate();
+        })
+        .catch(e => {
+          console.error(e);
+        });
+    }
+  },
+  mounted() {
+    this.listUpdate();
   }
 };
 </script>

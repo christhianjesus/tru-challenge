@@ -7,7 +7,7 @@
     <span>Full Name:</span>
     <input type="text" v-model="name" />
     <span>Content:</span>
-    <textarea v-model="msg"></textarea>
+    <textarea v-model="content"></textarea>
     <button @click="onSubmit">Submit</button>
   </div>
 </template>
@@ -22,7 +22,7 @@ export default class ContactForm extends Vue {
   @Provide()
   name = "";
   @Provide()
-  msg = "";
+  content = "";
 
   @Emit("submit")
   onSubmit() {
