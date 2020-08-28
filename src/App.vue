@@ -5,7 +5,7 @@
       <router-link to="/contact">Contact</router-link> |
       <router-link to="/about">About</router-link>
     </div>
-    <router-view />
+    <router-view :key="$route.path" />
     <div id="footer">
       <span>Copyright &copy; Christhian Guevara</span>
     </div>

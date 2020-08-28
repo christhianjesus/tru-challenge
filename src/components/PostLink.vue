@@ -1,5 +1,5 @@
 <template>
-  <div class="post-link">
+  <div class="post-link" @click="showPost">
     <h2>{{ title }}</h2>
     <p>
       {{ msg }}
@@ -16,10 +16,19 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class PostLink extends Vue {
+  @Prop() private id!: string;
   @Prop() private title!: string;
   @Prop() private msg!: string;
   @Prop() private author!: string;
   @Prop() private answers!: number;
+
+  showPost() {
+    let path = this.$route.params.pathMatch || "";
+
+    if (path && path.slice(-1) !== "/") path += "/";
+
+    this.$router.push("/post/" + path + this.id);
+  }
 }
 </script>
 
